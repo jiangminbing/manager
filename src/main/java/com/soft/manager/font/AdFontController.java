@@ -12,10 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -24,11 +21,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping(value = "/manager")
-public class AdFontContrller extends BaseFontContrller {
-    private static final Logger logger = LoggerFactory.getLogger(AdFontContrller.class);
+public class AdFontController extends BaseFontContrller {
+//    private static final Logger logger = LoggerFactory.getLogger(AdFontContrller.class);
 
     @Autowired
     private AdService adService;
+
+    public AdFontController() {
+        super("AdFontContrller");
+    }
 
     /**
      * 分页查询广告内容
@@ -54,7 +55,8 @@ public class AdFontContrller extends BaseFontContrller {
      * @return
      */
     @RequestMapping("/queryAdByAdId")
-    public Result queryAdByAdId(Integer id){
+    @ResponseBody
+    public Result queryAdByAdId(@RequestParam Integer id){
         try {
             printParam("queryAdByAdId==>"+id);
             AdDto ad = adService.getAdById(id);

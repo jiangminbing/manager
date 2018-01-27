@@ -50,6 +50,13 @@ public class AdService {
 
         return new PageResult<AdDto>(ResCode.NO_DATA);
     }
+
+    /**
+     * 通过Id查询
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public AdDto getAdById(Integer id) throws Exception{
         Ad ad = adMapper.selectByPrimaryKey(id);
         AdDto adDto = new AdDto();

@@ -50,11 +50,22 @@
         </javaClientGenerator>
 
 
-        <table tableName="t_ad" domainObjectName="Ad"
+<!--        <table tableName="t_ad" domainObjectName="Ad"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+        </table>-->
+<!--        <table tableName="t_article" domainObjectName="Article"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+        </table>-->
+        <table tableName="t_goods" domainObjectName="Goods"
                enableCountByExample="true" enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
         </table>
+
 
     </context>
 </generatorConfiguration>
