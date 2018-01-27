@@ -45,8 +45,10 @@ public class AdService {
             PageResult<AdDto> pageResult = new PageResult<>(ResCode.SUCCESS);
             pageResult.setData(resList);
             pageResult.setTotal(total);
+            return pageResult;
         }
-        return new PageResult(ResCode.NO_DATA);
+
+        return new PageResult<AdDto>(ResCode.NO_DATA);
     }
     public AdDto getAdById(Integer id) throws Exception{
         Ad ad = adMapper.selectByPrimaryKey(id);
