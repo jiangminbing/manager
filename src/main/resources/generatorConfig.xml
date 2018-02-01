@@ -60,7 +60,17 @@
                enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
         </table>-->
-        <table tableName="t_goods" domainObjectName="Goods"
+        <!--<table tableName="t_goods" domainObjectName="Goods"-->
+               <!--enableCountByExample="true" enableUpdateByExample="true"-->
+               <!--enableDeleteByExample="true" enableSelectByExample="true"-->
+               <!--selectByExampleQueryId="true">-->
+        <!--</table>-->
+<!--        <table tableName="t_goods_price" domainObjectName="GoodsPrice"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+        </table>-->
+        <table tableName="t_user" domainObjectName="User"
                enableCountByExample="true" enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
