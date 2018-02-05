@@ -3,6 +3,7 @@ package com.soft.manager.font;
 import com.alibaba.fastjson.JSON;
 import com.soft.manager.po.GoodsPrice;
 import com.soft.manager.service.GoodsPriceService;
+import com.soft.parent.basic.req.GoodsPriceSearchDto;
 import com.soft.parent.basic.res.GoodsPriceDto;
 import com.soft.parent.basic.result.DetailResult;
 import com.soft.parent.basic.result.PageResult;
@@ -10,10 +11,7 @@ import com.soft.parent.basic.result.ResCode;
 import com.soft.parent.basic.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,7 +29,7 @@ public class GoodsPriceFontController extends BaseFontContrller{
         super("GoodsFontPriceController");
     }
 
-    @RequestMapping(value = "/getGoodsByPage",method = {RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = "/findAllNormalGoodsPriceByGoodsId",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public DetailResult<List<GoodsPriceDto>> findAllNormalGoodsPriceByGoodsId(@RequestParam Integer goodsId){
         try{
@@ -39,6 +37,16 @@ public class GoodsPriceFontController extends BaseFontContrller{
         }catch (Exception e){
             logger.error("系统异常:{}",JSON.toJSONString(e));
             return new DetailResult<>(ResCode.SYS_ERR);
+        }
+    }
+    @RequestMapping(value = "/searchGoodsPrice",method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public DetailResult<List<GoodsPriceDto>> searchGoodsPrice(@RequestBody GoodsPriceSearchDto searchDto){
+        try {
+            return goodsPriceService.searchGoodsPrice(searchDto);
+        }catch (Exception e){
+            logger.error("系统异常:{}",JSON.toJSONString(e));
+            return new DetailResult(ResCode.SYS_ERR);
         }
     }
 }

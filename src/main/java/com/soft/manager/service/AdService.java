@@ -60,7 +60,7 @@ public class AdService {
     public AdDto getAdById(Integer id) throws Exception{
         Ad ad = adMapper.selectByPrimaryKey(id);
         AdDto adDto = new AdDto();
-        BeanUtils.copyProperties(adDto,ad);
+        BeanUtils.copyProperties(ad,adDto);
         return  adDto;
     }
     public AdExample createCriteria(AdSearchDto dto) throws Exception{

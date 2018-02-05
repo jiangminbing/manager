@@ -1,16 +1,17 @@
 package com.soft.manager.font;
 
 import com.alibaba.fastjson.JSON;
+import com.soft.manager.service.ShoppingCartService;
+import com.soft.manager.service.UserPrivilegeService;
 import com.soft.manager.service.UserService;
+import com.soft.parent.basic.res.ShoppingCartDto;
+import com.soft.parent.basic.res.UserPrivilegeDto;
 import com.soft.parent.basic.result.DetailResult;
 import com.soft.parent.basic.result.ResCode;
 import com.soft.parent.basic.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author jiangmb
@@ -26,20 +27,46 @@ public class UserFontController extends BaseFontContrller {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserPrivilegeService userPrivilegeService;
+
+    @Autowired
+    private ShoppingCartService shoppingCartService;
+
     /**
-     * 用户登录
+     * 电话号码获取用户信息
      * @param moblie
-     * @param psw
      * @return
      */
-    @RequestMapping(value = "/getGoodsByPage",method = {RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = "/getUserByMobile",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
-    public Result login(@RequestParam String moblie, @RequestParam String psw){
+    public Result getUserByMobile(@RequestParam String moblie){
         try{
-            return userService.login(moblie,psw);
+            return userService.getUserByMobile(moblie);
         }catch (Exception e){
             logger.error("系统异常:{}", JSON.toJSONString(e));
             return new Result(ResCode.SYS_ERR);
+        }
+    }
+    @RequestMapping(value = "/getUserPrivilegeByUser",method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public DetailResult<UserPrivilegeDto> getUserPrivilegeByUser(@RequestParam Integer userId){
+        try{
+            return userPrivilegeService.getUserPrivilegeByUser(userId);
+        }catch (Exception e){
+            logger.error("系统异常:{}", JSON.toJSONString(e));
+            return new DetailResult<>(ResCode.SYS_ERR);
+        }
+
+    }
+    @RequestMapping(value = "/queryShoppingCartByUserIdAndPriceId",method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public DetailResult<ShoppingCartDto> queryShoppingCartByUserIdAndPriceId(@RequestParam Integer userId,@RequestParam Integer priceId){
+        try{
+            return shoppingCartService.queryShoppingCartByUserIdAndPriceId(userId,priceId);
+        }catch (Exception e){
+            logger.error("系统异常:{}", JSON.toJSONString(e));
+            return new DetailResult<>(ResCode.SYS_ERR);
         }
     }
 }
