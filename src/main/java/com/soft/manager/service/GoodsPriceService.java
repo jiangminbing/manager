@@ -1,21 +1,16 @@
 package com.soft.manager.service;
 
-import com.soft.manager.dao.GoodsPriceMapper;
-import com.soft.manager.po.GoodsExample;
-import com.soft.manager.po.GoodsPrice;
-import com.soft.manager.po.GoodsPriceExample;
 import com.soft.parent.basic.req.GoodsPriceSearchDto;
-import com.soft.parent.basic.req.GoodsSearchDto;
-import com.soft.parent.basic.res.GoodsPriceDto;
 import com.soft.parent.basic.result.DetailResult;
 import com.soft.parent.basic.result.PageResult;
 import com.soft.parent.basic.result.ResCode;
+import com.soft.parent.manager.dao.GoodsPriceMapper;
+import com.soft.parent.manager.po.GoodsPrice;
+import com.soft.parent.manager.po.GoodsPriceExample;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,21 +28,12 @@ public class GoodsPriceService {
      * @return
      * @throws Exception
      */
-    public DetailResult<List<GoodsPriceDto>> findAllNormalGoodsPriceByGoodsId(Integer goodsId) throws Exception{
-        DetailResult<List<GoodsPriceDto>> result = new DetailResult<>(ResCode.SUCCESS);
+    public List<GoodsPrice> getGoodsPriceByGoodsId(Integer goodsId) throws Exception{
         GoodsPriceExample example = new GoodsPriceExample();
         GoodsPriceExample.Criteria criteria = example.createCriteria();
         criteria.andGoodsIdEqualTo(goodsId);
         List<GoodsPrice> list = goodsPriceMapper.selectByExample(example);
-        List<GoodsPriceDto> resList = new ArrayList<>();
-        if(list==null||list.isEmpty()) return result;
-        for(GoodsPrice goodsPrice:list){
-            GoodsPriceDto dto = new GoodsPriceDto();
-            BeanUtils.copyProperties(dto,goodsPrice);
-            resList.add(dto);
-        }
-        result.setData(resList);
-        return result;
+        return list;
     }
 
     /**
@@ -56,34 +42,21 @@ public class GoodsPriceService {
      * @return
      * @throws Exception
      */
-    public DetailResult<List<GoodsPriceDto>> searchGoodsPrice(GoodsPriceSearchDto searchDto) throws Exception{
-        DetailResult<List<GoodsPriceDto>> result = new DetailResult<>(ResCode.SUCCESS);
+    public DetailResult<List<GoodsPrice>> searchGoodsPrice(GoodsPriceSearchDto searchDto) throws Exception{
+        DetailResult<List<GoodsPrice>> result = new DetailResult<>(ResCode.SUCCESS);
         GoodsPriceExample example = createCriteria(searchDto);
         List<GoodsPrice> list = goodsPriceMapper.selectByExample(example);
-        if(list==null||list.isEmpty()) return result;
-        List<GoodsPriceDto> resList = new ArrayList<>();
-        for(GoodsPrice goodsPrice:list){
-            GoodsPriceDto dto = new GoodsPriceDto();
-            BeanUtils.copyProperties(dto,goodsPrice);
-            resList.add(dto);
-        }
-        result.setData(resList);
+        result.setData(list);
         return result;
     }
 
-    public PageResult<GoodsPriceDto> searchPageGoodsPrice(GoodsPriceSearchDto searchDto) throws Exception{
-        PageResult<GoodsPriceDto> result = new PageResult<>();
+    public PageResult<GoodsPrice> searchPageGoodsPrice(GoodsPriceSearchDto searchDto) throws Exception{
+        PageResult<GoodsPrice> result = new PageResult<>();
         GoodsPriceExample example = createCriteria(searchDto);
         long total = goodsPriceMapper.countByExample(example);
         if(total>0){
             List<GoodsPrice> list = goodsPriceMapper.selectByExample(example);
-            List<GoodsPriceDto> resList = new ArrayList<>();
-            for(GoodsPrice goodsPrice:list){
-                GoodsPriceDto dto = new GoodsPriceDto();
-                BeanUtils.copyProperties(dto,goodsPrice);
-                resList.add(dto);
-            }
-            result.setData(resList);
+            result.setData(list);
             result.setTotal(total);
         }
         return result;

@@ -1,11 +1,10 @@
 package com.soft.manager.font;
 
 import com.alibaba.fastjson.JSON;
-import com.soft.manager.po.Logistics;
 import com.soft.manager.service.LogisticsService;
-import com.soft.parent.basic.res.LogisticsDto;
 import com.soft.parent.basic.result.DetailResult;
 import com.soft.parent.basic.result.ResCode;
+import com.soft.parent.manager.po.Logistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,9 +27,11 @@ public class LogisticsController extends BaseFontContrller{
     private LogisticsService logisticsService;
     @RequestMapping(value = "/getListLogistics",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
-    public DetailResult<List<LogisticsDto>> getListLogistics(){
+    public DetailResult<List<Logistics>> getListLogistics(){
         try{
-            return logisticsService.getListLogistics();
+            DetailResult<List<Logistics>> result = new DetailResult<>(ResCode.SUCCESS);
+            result.setData(logisticsService.getListLogistics());
+            return result;
         }catch (Exception e){
             logger.error("系统异常:{}", JSON.toJSONString(e));
             return new DetailResult<>(ResCode.SYS_ERR);

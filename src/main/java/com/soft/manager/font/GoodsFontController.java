@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.soft.manager.service.GoodsService;
 import com.soft.parent.basic.req.GoodsCategoryDto;
 import com.soft.parent.basic.req.GoodsSearchDto;
-import com.soft.parent.basic.res.GoodsDto;
 import com.soft.parent.basic.result.*;
+import com.soft.parent.manager.po.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,10 +28,10 @@ public class GoodsFontController extends BaseFontContrller{
 
     @RequestMapping(value = "/getGoodsByPage",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
-    public PageResult<GoodsDto> getGoodsByPage(@RequestBody GoodsSearchDto dto){
+    public PageResult<Goods> getGoodsByPage(@RequestBody GoodsSearchDto dto){
         try {
             printParam("getGoodsByPage==>"+ JSON.toJSONString(dto));
-            PageResult<GoodsDto> result = goodsService.getGoodsByPage(dto);
+            PageResult<Goods> result = goodsService.getGoodsByPage(dto);
             return  result;
         }catch (Exception e){
             logger.error("系统异常:{}",JSON.toJSONString(e));
@@ -46,11 +46,11 @@ public class GoodsFontController extends BaseFontContrller{
      */
     @RequestMapping(value = "/getGoodById",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
-    public DetailResult<GoodsDto> getGoodById(@RequestParam Integer id) {
+    public DetailResult<Goods> getGoodById(@RequestParam Integer id) {
         try {
             printParam("getGoodById==>"+ id);
-            GoodsDto dto = goodsService.getGoodById(id);
-            DetailResult<GoodsDto> result = new DetailResult<>(ResCode.SUCCESS);
+            Goods dto = goodsService.getGoodById(id);
+            DetailResult<Goods> result = new DetailResult<>(ResCode.SUCCESS);
             result.setData(dto);
             return  result;
         }catch (Exception e){
@@ -63,16 +63,12 @@ public class GoodsFontController extends BaseFontContrller{
      */
     @RequestMapping(value = "/getGoodsAll",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
-    public DetailResult<List<GoodsDto>> getGoodsAll(){
+    public DetailResult<List<Goods>> getGoodsAll(){
         try{
-            List<GoodsDto> list = goodsService.getGoodsAll();
-            if(list==null){
-                return new DetailResult<>(ResCode.NO_DATA);
-            }else {
-                DetailResult<List<GoodsDto>> result = new DetailResult<>(ResCode.SUCCESS);
-                result.setData(list);
-                return result;
-            }
+            DetailResult<List<Goods>> result = new DetailResult<>(ResCode.SUCCESS);
+            List<Goods> list = goodsService.getGoodsAll();
+            result.setData(list);
+            return result;
         }catch (Exception e){
             logger.error("系统异常:{}",JSON.toJSONString(e));
             return new DetailResult<>(ResCode.SYS_ERR);
@@ -80,10 +76,10 @@ public class GoodsFontController extends BaseFontContrller{
     }
     @RequestMapping(value = "/getGoodsByGoodsCategory",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
-    public DetailResult<List<GoodsDto>> getGoodsByGoodsCategory(@RequestBody GoodsCategoryDto dto){
+    public DetailResult<List<Goods>> getGoodsByGoodsCategory(@RequestBody GoodsCategoryDto dto){
         try{
-            List<GoodsDto> list = goodsService.getGoodsByGoodsCategory(dto);
-            DetailResult<List<GoodsDto>> result = new DetailResult<>(ResCode.SUCCESS);
+            List<Goods> list = goodsService.getGoodsByGoodsCategory(dto);
+            DetailResult<List<Goods>> result = new DetailResult<>(ResCode.SUCCESS);
             result.setData(list);
             return result;
         }catch (Exception e){
@@ -100,7 +96,7 @@ public class GoodsFontController extends BaseFontContrller{
      */
     @RequestMapping(value = "/getPageGoodsByGoodsCategory",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
-    public PageResult<GoodsDto> getPageGoodsByGoodsCategory(@RequestBody Page page,@RequestBody GoodsCategoryDto dto){
+    public PageResult<Goods> getPageGoodsByGoodsCategory(@RequestBody Page page,@RequestBody GoodsCategoryDto dto){
         try{
             return goodsService.getPageGoodsByGoodsCategory(page,dto);
         }catch (Exception e){
@@ -114,7 +110,7 @@ public class GoodsFontController extends BaseFontContrller{
      */
     @RequestMapping(value = "/getPageByMyStoreGoods",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
-    public PageResult<GoodsDto> getPageByMyStoreGoods(@RequestBody Page page,@RequestParam Integer userId){
+    public PageResult<Goods> getPageByMyStoreGoods(@RequestBody Page page,@RequestParam Integer userId){
         try{
             return goodsService.getPageByMyStoreGoods(page,userId);
         }catch (Exception e){

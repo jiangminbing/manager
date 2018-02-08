@@ -1,18 +1,15 @@
 package com.soft.manager.service;
 
-import com.soft.manager.dao.ArticleMapper;
-import com.soft.manager.po.Article;
-import com.soft.manager.po.ArticleExample;
+
 import com.soft.parent.basic.req.ArticleSerachDto;
-import com.soft.parent.basic.res.ArticleDto;
 import com.soft.parent.basic.result.PageResult;
 import com.soft.parent.basic.result.ResCode;
+import com.soft.parent.manager.dao.ArticleMapper;
+import com.soft.parent.manager.po.Article;
+import com.soft.parent.manager.po.ArticleExample;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,29 +27,21 @@ public class ArticleService {
      * @return
      * @throws Exception
      */
-    public PageResult<ArticleDto> getArticleByPage(ArticleSerachDto  dto) throws Exception{
+    public PageResult<Article> getArticleByPage(ArticleSerachDto  dto) throws Exception{
+        PageResult<Article> pageResult = new PageResult<>(ResCode.SUCCESS);
         ArticleExample example = createCriteria(dto);
         long total = articleMapper.countByExample(example);
         if(total>0){
             List<Article> list = articleMapper.selectByExample(example);
-            List<ArticleDto> resList = new ArrayList<>();
-            for(Article article:list){
-                ArticleDto articleDto = new ArticleDto();
-                BeanUtils.copyProperties(article,articleDto);
-                resList.add(articleDto);
-            }
-            PageResult<ArticleDto> pageResult = new PageResult<>(ResCode.SUCCESS);
-            pageResult.setData(resList);
+            pageResult.setData(list);
             pageResult.setTotal(total);
             return pageResult;
         }
-        return new PageResult<ArticleDto>(ResCode.NO_DATA);
+        return pageResult;
     }
-    public ArticleDto getArticleById(Integer id) throws Exception{
+    public Article getArticleById(Integer id) throws Exception{
         Article article = articleMapper.selectByPrimaryKey(id);
-        ArticleDto articleDto = new ArticleDto();
-        BeanUtils.copyProperties(articleDto ,article);
-        return  articleDto;
+        return  article;
     }
     public ArticleExample createCriteria(ArticleSerachDto dto) throws Exception{
         ArticleExample example = new ArticleExample();

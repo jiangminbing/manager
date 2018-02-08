@@ -3,13 +3,11 @@ package com.soft.manager.font;
 import com.alibaba.fastjson.JSON;
 import com.soft.manager.service.AdService;
 import com.soft.parent.basic.req.AdSearchDto;
-import com.soft.parent.basic.res.AdDto;
 import com.soft.parent.basic.result.DetailResult;
 import com.soft.parent.basic.result.PageResult;
 import com.soft.parent.basic.result.ResCode;
 import com.soft.parent.basic.result.Result;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.soft.parent.manager.po.Ad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -38,10 +36,10 @@ public class AdFontController extends BaseFontContrller {
      */
     @RequestMapping(value = "/getAdByPage",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
-    public PageResult<AdDto> getAdByPage(@RequestBody AdSearchDto dto) {
+    public PageResult<Ad> getAdByPage(@RequestBody AdSearchDto dto) {
         try {
             printParam("getAdByPage==>"+JSON.toJSONString(dto));
-            PageResult<AdDto> result = adService.getAdByPage(dto);
+            PageResult<Ad> result = adService.getAdByPage(dto);
             return  result;
         }catch (Exception e){
             logger.error("系统异常:{}",JSON.toJSONString(e));
@@ -59,8 +57,8 @@ public class AdFontController extends BaseFontContrller {
     public Result queryAdByAdId(@RequestParam Integer id){
         try {
             printParam("queryAdByAdId==>"+id);
-            AdDto ad = adService.getAdById(id);
-            DetailResult<AdDto> result = new DetailResult(ResCode.SUCCESS);
+            Ad ad = adService.getAdById(id);
+            DetailResult<Ad> result = new DetailResult(ResCode.SUCCESS);
             result.setData(ad);
             return  result;
         }catch (Exception e){

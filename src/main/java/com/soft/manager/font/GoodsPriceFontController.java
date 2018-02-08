@@ -1,14 +1,13 @@
 package com.soft.manager.font;
 
 import com.alibaba.fastjson.JSON;
-import com.soft.manager.po.GoodsPrice;
 import com.soft.manager.service.GoodsPriceService;
 import com.soft.parent.basic.req.GoodsPriceSearchDto;
-import com.soft.parent.basic.res.GoodsPriceDto;
 import com.soft.parent.basic.result.DetailResult;
-import com.soft.parent.basic.result.PageResult;
 import com.soft.parent.basic.result.ResCode;
-import com.soft.parent.basic.result.Result;
+
+import com.soft.parent.manager.po.GoodsPrice;
+import com.sun.deploy.resources.Deployment_it;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +30,11 @@ public class GoodsPriceFontController extends BaseFontContrller{
 
     @RequestMapping(value = "/findAllNormalGoodsPriceByGoodsId",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
-    public DetailResult<List<GoodsPriceDto>> findAllNormalGoodsPriceByGoodsId(@RequestParam Integer goodsId){
+    public DetailResult<List<GoodsPrice>> findAllNormalGoodsPriceByGoodsId(@RequestParam Integer goodsId){
         try{
-            return goodsPriceService.findAllNormalGoodsPriceByGoodsId(goodsId);
+            DetailResult<List<GoodsPrice>> result = new DetailResult<>(ResCode.SUCCESS);
+            result.setData(goodsPriceService.getGoodsPriceByGoodsId(goodsId));
+            return result;
         }catch (Exception e){
             logger.error("系统异常:{}",JSON.toJSONString(e));
             return new DetailResult<>(ResCode.SYS_ERR);
@@ -41,7 +42,7 @@ public class GoodsPriceFontController extends BaseFontContrller{
     }
     @RequestMapping(value = "/searchGoodsPrice",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
-    public DetailResult<List<GoodsPriceDto>> searchGoodsPrice(@RequestBody GoodsPriceSearchDto searchDto){
+    public DetailResult<List<GoodsPrice>> searchGoodsPrice(@RequestBody GoodsPriceSearchDto searchDto){
         try {
             return goodsPriceService.searchGoodsPrice(searchDto);
         }catch (Exception e){
