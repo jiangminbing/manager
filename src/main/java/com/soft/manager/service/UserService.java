@@ -1,13 +1,8 @@
 package com.soft.manager.service;
 
-import com.soft.manager.dao.UserMapper;
-import com.soft.manager.po.User;
-import com.soft.manager.po.UserExample;
-import com.soft.parent.basic.res.UserDto;
-import com.soft.parent.basic.result.DetailResult;
-import com.soft.parent.basic.result.ResCode;
-import com.soft.parent.basic.result.Result;
-import org.springframework.beans.BeanUtils;
+import com.soft.parent.manager.dao.UserMapper;
+import com.soft.parent.manager.po.User;
+import com.soft.parent.manager.po.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,17 +24,13 @@ public class UserService {
      * @return
      * @throws Exception
      */
-    public Result getUserByMobile(String mobile)throws Exception{
-        DetailResult<UserDto> result = new DetailResult<>(ResCode.SUCCESS);
+    public User getUserByMobile(String mobile)throws Exception{
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
         criteria.andPhoneEqualTo(mobile);
         List<User> list = userMapper.selectByExample(example);
-        if(list!=null||list.isEmpty()) return result;
-        UserDto dto = new UserDto();
-        BeanUtils.copyProperties(dto,list.get(0));
-        result.setData(dto);
-        return result;
+        if(list==null||list.isEmpty())return null;
+        return list.get(0);
     }
 
 }

@@ -4,11 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.soft.manager.service.ShoppingCartService;
 import com.soft.manager.service.UserPrivilegeService;
 import com.soft.manager.service.UserService;
-import com.soft.parent.basic.res.ShoppingCartDto;
-import com.soft.parent.basic.res.UserPrivilegeDto;
 import com.soft.parent.basic.result.DetailResult;
 import com.soft.parent.basic.result.ResCode;
 import com.soft.parent.basic.result.Result;
+import com.soft.parent.manager.po.ShoppingCart;
+import com.soft.parent.manager.po.User;
+import com.soft.parent.manager.po.UserPrivilege;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +43,9 @@ public class UserFontController extends BaseFontContrller {
     @ResponseBody
     public Result getUserByMobile(@RequestParam String moblie){
         try{
-            return userService.getUserByMobile(moblie);
+            DetailResult<User> result = new DetailResult<>(ResCode.SUCCESS);
+            result.setData(userService.getUserByMobile(moblie));
+            return result;
         }catch (Exception e){
             logger.error("系统异常:{}", JSON.toJSONString(e));
             return new Result(ResCode.SYS_ERR);
@@ -50,9 +53,11 @@ public class UserFontController extends BaseFontContrller {
     }
     @RequestMapping(value = "/getUserPrivilegeByUser",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
-    public DetailResult<UserPrivilegeDto> getUserPrivilegeByUser(@RequestParam Integer userId){
+    public DetailResult<UserPrivilege> getUserPrivilegeByUser(@RequestParam Integer userId){
         try{
-            return userPrivilegeService.getUserPrivilegeByUser(userId);
+            DetailResult<UserPrivilege> result = new DetailResult<>(ResCode.SUCCESS);
+            result.setData(userPrivilegeService.getUserPrivilegeByUser(userId));
+            return result;
         }catch (Exception e){
             logger.error("系统异常:{}", JSON.toJSONString(e));
             return new DetailResult<>(ResCode.SYS_ERR);
@@ -61,9 +66,11 @@ public class UserFontController extends BaseFontContrller {
     }
     @RequestMapping(value = "/queryShoppingCartByUserIdAndPriceId",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
-    public DetailResult<ShoppingCartDto> queryShoppingCartByUserIdAndPriceId(@RequestParam Integer userId,@RequestParam Integer priceId){
+    public DetailResult<ShoppingCart> queryShoppingCartByUserIdAndPriceId(@RequestParam Integer userId, @RequestParam Integer priceId){
         try{
-            return shoppingCartService.queryShoppingCartByUserIdAndPriceId(userId,priceId);
+            DetailResult<ShoppingCart> result = new DetailResult<>(ResCode.SUCCESS);
+            result.setData(shoppingCartService.queryShoppingCartByUserIdAndPriceId(userId,priceId));
+            return result;
         }catch (Exception e){
             logger.error("系统异常:{}", JSON.toJSONString(e));
             return new DetailResult<>(ResCode.SYS_ERR);
