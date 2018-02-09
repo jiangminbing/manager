@@ -16,7 +16,7 @@ import java.util.List;
 public class ShoppingCartService {
     @Autowired
     private ShoppingCartMapper shoppingCartMapper;
-    public ShoppingCart queryShoppingCartByUserIdAndPriceId(Integer userId, Integer priceId)throws Exception{
+    public ShoppingCart getShoppingCartByUserIdAndPriceId(Integer userId, Integer priceId)throws Exception{
         ShoppingCartExample example = new ShoppingCartExample();
         ShoppingCartExample.Criteria  criteria = example.createCriteria();
         criteria.andUserIdEqualTo(userId);
@@ -24,6 +24,22 @@ public class ShoppingCartService {
         List<ShoppingCart> list = shoppingCartMapper.selectByExample(example);
         if(list==null||list.isEmpty())return null;
         return list.get(0);
+    }
 
+    public List<ShoppingCart> getAllBuyShoppingCartByUserId(Integer userId)throws Exception{
+        ShoppingCartExample example = new ShoppingCartExample();
+        ShoppingCartExample.Criteria  criteria = example.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        List<ShoppingCart> list = shoppingCartMapper.selectByExample(example);
+        return list;
+    }
+
+    public boolean deleteShoppingCartById(Integer id)throws Exception{
+        if(id==null)return false;
+        return shoppingCartMapper.deleteByPrimaryKey(id)>0;
+    }
+    public boolean updateShoppingCart(ShoppingCart cart)throws Exception{
+        if(cart==null)return false;
+        return shoppingCartMapper.updateByPrimaryKey(cart)>0;
     }
 }

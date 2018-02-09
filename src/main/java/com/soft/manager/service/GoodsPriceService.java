@@ -22,6 +22,11 @@ public class GoodsPriceService {
     @Autowired
     private GoodsPriceMapper goodsPriceMapper;
 
+    public GoodsPrice getGoodsPriceById(Integer priceId)throws Exception{
+        GoodsPrice goodsPrice = goodsPriceMapper.selectByPrimaryKey(priceId);
+        return goodsPrice;
+    }
+
     /**
      * 根据商品Id获取价格
      * @param goodsId

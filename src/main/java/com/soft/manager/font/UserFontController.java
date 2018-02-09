@@ -69,7 +69,7 @@ public class UserFontController extends BaseFontContrller {
     public DetailResult<ShoppingCart> queryShoppingCartByUserIdAndPriceId(@RequestParam Integer userId, @RequestParam Integer priceId){
         try{
             DetailResult<ShoppingCart> result = new DetailResult<>(ResCode.SUCCESS);
-            result.setData(shoppingCartService.queryShoppingCartByUserIdAndPriceId(userId,priceId));
+            result.setData(shoppingCartService.getShoppingCartByUserIdAndPriceId(userId,priceId));
             return result;
         }catch (Exception e){
             logger.error("系统异常:{}", JSON.toJSONString(e));
