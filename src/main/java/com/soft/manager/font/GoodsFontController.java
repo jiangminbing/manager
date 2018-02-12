@@ -119,6 +119,25 @@ public class GoodsFontController extends BaseFontContrller{
         }
     }
 
+    /**
+     * 用户查询选择的商品
+     * @param goodIds
+     * @return
+     */
+    @RequestMapping(value = "/getAllSelectGoods",method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public DetailResult<List<Goods>> getAllSelectGoods (@RequestParam List<Integer> goodIds){
+        try{
+            DetailResult<List<Goods>> result = new DetailResult<>(ResCode.SUCCESS);
+            result.setData(goodsService.getGoodsByGoodIds(goodIds));
+            return result;
+        }catch (Exception e){
+            logger.error("系统异常:{}",JSON.toJSONString(e));
+            return new DetailResult(ResCode.SYS_ERR);
+        }
+    }
+
+
 
 
 

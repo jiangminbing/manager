@@ -20,11 +20,14 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/manager")
 public class LogisticsController extends BaseFontContrller{
+
     public LogisticsController() {
         super("LogisticsController");
     }
+
     @Autowired
     private LogisticsService logisticsService;
+
     @RequestMapping(value = "/getListLogistics",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public DetailResult<List<Logistics>> getListLogistics(){
@@ -32,6 +35,16 @@ public class LogisticsController extends BaseFontContrller{
             DetailResult<List<Logistics>> result = new DetailResult<>(ResCode.SUCCESS);
             result.setData(logisticsService.getListLogistics());
             return result;
+        }catch (Exception e){
+            logger.error("系统异常:{}", JSON.toJSONString(e));
+            return new DetailResult<>(ResCode.SYS_ERR);
+        }
+    }
+    @RequestMapping(value = "/getFristLogistics",method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public DetailResult<Logistics> getFristLogistics(){
+        try{
+            return logisticsService.getFristLogistics();
         }catch (Exception e){
             logger.error("系统异常:{}", JSON.toJSONString(e));
             return new DetailResult<>(ResCode.SYS_ERR);

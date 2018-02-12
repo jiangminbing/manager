@@ -66,6 +66,21 @@ public class GoodsService {
     }
 
     /**
+     * 查询商品列表的详细信息
+     * @param goodIds
+     * @return
+     * @throws Exception
+     */
+    public List<Goods> getGoodsByGoodIds(List<Integer> goodIds)throws Exception{
+        GoodsExample example = new GoodsExample();
+        GoodsExample.Criteria criteria = example.createCriteria();
+        criteria.andGoodsIdIn(goodIds);
+        List<Goods> list = goodsMapper.selectByExample(example);
+        return list;
+
+    }
+
+    /**
      * 查询用户个人收藏的商品
      * @param page
      * @param userId

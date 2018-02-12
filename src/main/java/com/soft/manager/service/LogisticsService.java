@@ -27,4 +27,23 @@ public class LogisticsService {
         List<Logistics> list = logisticsMapper.selectByExample(example);;
         return list;
     }
+
+    /**
+     * 查询第一条配送信息
+     * @return
+     * @throws Exception
+     */
+    public DetailResult<Logistics> getFristLogistics()throws Exception{
+        DetailResult result = new DetailResult(ResCode.SUCCESS);
+        LogisticsExample example = new LogisticsExample();
+        LogisticsExample.Criteria criteria = example.createCriteria();
+        criteria.andDelStateEqualTo((byte)2);
+        criteria.andStateEqualTo((byte)1);
+        example.setOrderByClause("create_time desc");
+        example.setBegin(0);
+        example.setLength(1);
+        List<Logistics> list = logisticsMapper.selectByExample(example);
+        result.setData(list.get(0));
+        return result;
+    }
 }
