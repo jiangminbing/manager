@@ -1,6 +1,9 @@
 package com.soft.manager.service;
 
+import com.soft.parent.basic.result.DetailResult;
 import com.soft.parent.manager.dao.UserMapper;
+import com.soft.parent.manager.po.Receive;
+import com.soft.parent.manager.po.ReceiveExample;
 import com.soft.parent.manager.po.User;
 import com.soft.parent.manager.po.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +35,21 @@ public class UserService {
         if(list==null||list.isEmpty())return null;
         return list.get(0);
     }
+
+    /**
+     * openId 获取用户信息
+     * @param openId
+     * @return
+     * @throws Exception
+     */
+    public User getUserByOpenId(String openId)throws Exception{
+        UserExample example = new UserExample();
+        UserExample.Criteria criteria = example.createCriteria();
+        criteria.andOpenidEqualTo(openId);
+        List<User> list = userMapper.selectByExample(example);
+        if(list==null||list.isEmpty())return null;
+        return list.get(0);
+    }
+
 
 }
